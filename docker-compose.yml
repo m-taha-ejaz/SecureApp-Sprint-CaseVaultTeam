@@ -1,0 +1,31 @@
+services:
+  web:
+    build:
+      context: .
+      target: app
+    env_file: .env
+    environment:
+      APP_MODE: development
+      SESSION_SECURE: "false"
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - casevault_data:/app/instance
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 15s
+      timeout: 4s
+      retries: 5
+  lab:
+    profiles: ["lab"]
+    build:
+      context: .
+      target: lab
+    volumes:
+      - ./evidence:/work/evidence
+    environment:
+      APP_SECRET: test-only-not-for-production
+    command: ["bash"]
+volumes:
+  casevault_data:

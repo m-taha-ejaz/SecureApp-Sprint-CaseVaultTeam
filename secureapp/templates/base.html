@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CaseVault | Secure Incident Evidence Exchange</title><link rel="stylesheet" href="/static/style.css"></head>
+<body><header class="top"><a class="logo" href="/">◈ &nbsp;CaseVault<span class="dot">.</span></a>
+<nav><span class="tag">CYC386 · Security Engineering</span>
+{% if user %}<span class="account">{{ user['username'] }}</span><form class="inline" method="post" action="/logout"><input type="hidden" name="csrf_token" value="{{ csrf }}"><button class="small secondary">Log out</button></form>{% endif %}</nav></header>
+<main>{% block content %}{% endblock %}</main>
+<footer><span>CaseVault / Controlled lab project</span><span>Protected by authorization, CSRF and framing defenses</span></footer>
+</body></html>
