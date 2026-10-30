@@ -1,0 +1,29 @@
+rules:
+  - id: secureshare-python-shell-injection
+    languages: [python]
+    severity: ERROR
+    message: "Do not allow shell=True: command injection risk."
+    metadata:
+      category: security
+      cwe: CWE-78
+      security_severity: critical
+    patterns:
+      - pattern: subprocess.run(..., shell=True, ...)
+  - id: secureshare-python-shell-call
+    languages: [python]
+    severity: ERROR
+    message: "Avoid os.system for externally influenced commands."
+    metadata:
+      category: security
+      cwe: CWE-78
+      security_severity: high
+    pattern: os.system(...)
+  - id: secureshare-eval-risk
+    languages: [python]
+    severity: ERROR
+    message: "Avoid eval: untrusted expression execution."
+    metadata:
+      category: security
+      cwe: CWE-95
+      security_severity: high
+    pattern: eval(...)
