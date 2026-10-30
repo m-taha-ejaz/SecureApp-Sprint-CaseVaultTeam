@@ -1,0 +1,6 @@
+﻿ID,Threat_ID,Description,PNE_ID,Priority,Rationale,Proposed_Action,Status
+QUAL-01,TH-024,DB/file loss without tested backups,PNE-027,High,Impact can be irreversible evidence loss; CVSS inapplicable without a defined software vulnerability,Backup plus restore drill,Pending
+QUAL-02,TH-025,Unagreed retention/disposal policy,PNE-029,Medium,Governance risk rather than software exploit,Document retention period and deletion scope,Pending
+QUAL-03,TH-026,Over-privileged container/native subprocess,PNE-025,High,Environmental consequence modifier; no single concrete exploitable flaw proved,Run helper non-root; drop capabilities; isolate file permissions,Pending
+QUAL-04,TH-017,Audit SQLite can be modified by host administrator,PNE-030,High,Mutable local audit cannot provide tamper-proof chain of custody,Forward to independent protected logging before production,Pending
+QUAL-05,TH-021,Unreviewed changes bypass pipeline enforcement,PNE-022;PNE-023,High,CI governance control weakness; not a measurable standalone product CVSS vulnerability,"Protect main, use reviewed PRs and nonzero high/critical security gates",Pending

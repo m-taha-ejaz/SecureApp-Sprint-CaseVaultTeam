@@ -1,0 +1,15 @@
+﻿Evidence_ID,What_To_Capture,Minimum_Proof,Original_File_Path,Capture_Date_Actual,Collected_By_Actual,Evidence_Status
+EV-3-01,Context diagram review,"PDF/SVG image, date and team review notes",,,,PENDING - do not fabricate
+EV-3-02,Level-1 DFD review,Diagram with all process/store/flow IDs visible,,,,PENDING - do not fabricate
+EV-3-03,STRIDE completeness,Model checker stdout plus matrix screenshot,,,,PENDING - do not fabricate
+EV-3-04,CVSS calculations,"Official calculator screenshots for R-01, R-02, R-03 + vector CSV",,,,PENDING - do not fabricate
+EV-3-05,Attack trees,Both diagrams and rationale reviewed by team,,,,PENDING - do not fabricate
+EV-3-06,Jira risk linkage,Actual Jira TH task keys with risk and PNE crossrefs,,,,PENDING - do not fabricate
+EV-3-07,GitHub version trace,"Commit diff, branch and PR linking this model",,,,PENDING - do not fabricate
+EV-3-08,Review meeting,"Real attendee names, date, decisions and actual screenshot",,,,PENDING - do not fabricate
+EV-4-01,Buffer overflow later,Legacy ASAN trace and fixed ASAN clean run (phase 5),,,,PENDING - do not fabricate
+EV-4-02,Command injection later,Local-only harmless marker before/after (phase 5),,,,PENDING - do not fabricate
+EV-4-03,IDOR later,Authorized vs denied HTTP requests (phase 5),,,,PENDING - do not fabricate
+EV-4-04,CSRF later,Forged vs valid token response (phase 5),,,,PENDING - do not fabricate
+EV-4-05,Clickjacking later,Browser iframe refusal and response headers (phase 5),,,,PENDING - do not fabricate
+EV-7-01,SAST/DAST later,Real scanner reports and pipeline run URLs (phase 7),,,,PENDING - do not fabricate

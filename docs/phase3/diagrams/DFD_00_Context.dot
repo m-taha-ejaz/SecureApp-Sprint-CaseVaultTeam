@@ -1,0 +1,18 @@
+digraph G {
+ graph [label="CASEVAULT  |  CONTEXT DFD  |  V1.0",labelloc=t,fontsize=18,fontname="DejaVu Sans",fontcolor="#172A3A",rankdir=LR,bgcolor=white,nodesep=0.7,ranksep=1.0, splines=polyline,pad="0.25"];
+ node [fontname="DejaVu Sans",fontsize=12,shape=box,style="filled,rounded",fillcolor="#E9F3F4",color="#176F75",penwidth=1.2,margin="0.25,0.16"];
+ edge [fontname="DejaVu Sans",fontsize=9,color="#64748B",arrowsize=.75,penwidth=1.2];
+ E1 [label="E1  Investigator / owner\nUntrusted browser",fillcolor="#FFF3DC",color="#B87726"];
+ E2 [label="E2  Authorized collaborator\nUntrusted browser",fillcolor="#FFF3DC",color="#B87726"];
+ E3 [label="E3  Untrusted web origin\nCross-site adversary",fillcolor="#FFE9E3",color="#B65742"];
+ E4 [label="E4  Operator\nHealth / deployment",fillcolor="#FFF3DC",color="#B87726"];
+ P0 [label="P0  CASEVAULT SYSTEM\nAccounts • sessions • upload\nObject-level permissions • file integrity\nPrivate storage • audit",fillcolor="#DAF0E9",color="#176F75",fontsize=13,penwidth=2.4];
+ {rank=same;E1;E2;E3;E4;}
+ E1 -> P0 [label="login • evidence • share requests"];
+ P0 -> E1 [label="session • private results"];
+ E2 -> P0 [label="login • permitted downloads"];
+ P0 -> E2 [label="authorized evidence / denial"];
+ E3 -> E1 [label="malicious iframe / forged form",style=dashed,color="#B65742"];
+ E4 -> P0 [label="health and configuration"];
+ P0 -> E4 [label="health / nonsecret status"];
+}

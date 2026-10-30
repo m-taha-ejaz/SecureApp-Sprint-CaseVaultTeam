@@ -1,0 +1,156 @@
+﻿Issue Type,Summary,Description,Priority,Labels,Proposed Epic,PNE ID,Security Requirement ID,Status (planned)
+Epic,CaseVault | Access & Sessions,Planning epic: assign real Jira key and stories after creation.,High,"cyc386,casevault,phase02",Access & Sessions,,,To Do
+Epic,CaseVault | Evidence Handling & Native Boundary,Planning epic: assign real Jira key and stories after creation.,High,"cyc386,casevault,phase02",Evidence Handling & Native Boundary,,,To Do
+Epic,CaseVault | Audit & Data Assurance,Planning epic: assign real Jira key and stories after creation.,High,"cyc386,casevault,phase02",Audit & Data Assurance,,,To Do
+Epic,CaseVault | DevSecOps & Operations,Planning epic: assign real Jira key and stories after creation.,High,"cyc386,casevault,phase02",DevSecOps & Operations,,,To Do
+Epic,CaseVault | Deployment & Residual Risk,Planning epic: assign real Jira key and stories after creation.,High,"cyc386,casevault,phase02",Deployment & Residual Risk,,,To Do
+Story,PNE-001 | Only the owner and currently authorized collaborators may retrieve each evidence object.,"SR-001: For every list/download route, server-side authorization shall evaluate the signed-in principal against that specific evidence ID and current share grants.
+Acceptance: Two users: owner and grantee succeed; a third authenticated user and anonymous request receive 403 or non-disclosing 404; enumeration exposes no file content.
+Planned test: T-001 Authorization integration test with 3 accounts + negative HTTP evidence
+CIA: C,I / Assets: A-03/A-04/A-05
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-001,idor",Access & Sessions,PNE-001,SR-001,To Do
+Story,PNE-002 | Only the evidence owner may grant access to a named existing user.,"SR-002: Share endpoint shall require owner permission and a validated target account; reject self/invalid grants without exposing evidence.
+Acceptance: Authorized grant succeeds; non-owner and unknown target cannot create grants; database remains unchanged on rejected attempts.
+Planned test: T-002 Owner/non-owner grant tests + DB check
+CIA: C,I / Assets: A-05/A-04
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-002,idor",Access & Sessions,PNE-002,SR-002,To Do
+Story,PNE-003 | Revoked collaborators must lose access at the next request.,"SR-003: Revocation shall update server-side grant state and every later download shall recheck current permissions.
+Acceptance: After revocation, previously authorized collaborator receives 403/404; owner still succeeds.
+Planned test: T-003 Grant → download → revoke → denied regression test
+CIA: C,I / Assets: A-05/A-03
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-003,idor",Access & Sessions,PNE-003,SR-003,To Do
+Story,PNE-004 | Non-owners must not delete or alter evidence objects.,"SR-004: Delete operation shall be owner-only; denied attempts shall not remove metadata, grants, or bytes.
+Acceptance: Unauthorized delete rejected and original owner can still download the same file and digest.
+Planned test: T-004 Two-account delete integration test
+CIA: I,A / Assets: A-03/A-04/A-05
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-004,idor",Access & Sessions,PNE-004,SR-004,To Do
+Story,PNE-005 | Sensitive operations must require an authenticated user.,"SR-005: Upload, list, download, share, revoke, delete and audit views shall enforce authenticated session checks.
+Acceptance: Each protected endpoint rejects unauthenticated requests; authenticated owner workflows succeed.
+Planned test: T-005 Authentication route matrix test
+CIA: C,I / Assets: A-01/A-02/A-10
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-005,authentication",Access & Sessions,PNE-005,SR-005,To Do
+Story,"PNE-006 | Passwords must not be exposed in source, logs or stored as plaintext.","SR-006: Use vetted salted password hashing; never persist plaintext; prevent secrets from being printed.
+Acceptance: Database password hash differs from entered password, login verifies it, no source code contains seeded plaintext credentials.
+Planned test: T-006 Credential storage test + source inspection
+CIA: C / Assets: A-01/A-12
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-006,authentication",Access & Sessions,PNE-006,SR-006,To Do
+Story,PNE-007 | User sessions must resist predictable or cross-site misuse.,"SR-007: Use signed/unpredictable session state, HttpOnly and SameSite cookies, logout invalidation and appropriate expiry; Secure flag under HTTPS.
+Acceptance: Logout prevents reuse; cookie attributes are visible; altered tokens are rejected.
+Planned test: T-007 Cookie/header inspection and session lifecycle tests
+CIA: C,I / Assets: A-02/A-15
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-007,authentication",Access & Sessions,PNE-007,SR-007,To Do
+Story,PNE-008 | Cross-site pages must not silently perform sensitive state changes.,"SR-008: All authenticated browser state-changing forms shall require session-bound anti-CSRF token verification plus SameSite cookies.
+Acceptance: Missing/wrong token rejected (403); correct token accepted; GET has no state-changing side effect.
+Planned test: T-008 CSRF negative/positive test and controlled forged-form demo
+CIA: I / Assets: A-02/A-05/A-10
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-008,csrf",Access & Sessions,PNE-008,SR-008,To Do
+Story,PNE-009 | Sensitive pages must not be operable when embedded by an untrusted site.,"SR-009: Authenticated pages shall emit CSP frame-ancestors 'none' and X-Frame-Options DENY.
+Acceptance: Browser refuses to render secure page within cross-origin iframe; secure response headers contain the policy.
+Planned test: T-009 Browser iframe demo + response header test
+CIA: I / Assets: A-10/A-15
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-009,clickjacking",Access & Sessions,PNE-009,SR-009,To Do
+Story,PNE-010 | Evidence files must not be publicly available through static web paths.,"SR-010: Store evidence outside static root; access only via authorized server download route.
+Acceptance: A guessed direct path cannot retrieve bytes; authorized API download succeeds.
+Planned test: T-010 HTTP direct-path negative test + storage inspection
+CIA: C / Assets: A-03/A-09/A-10
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-010,storage",Evidence Handling & Native Boundary,PNE-010,SR-010,To Do
+Story,PNE-011 | External identifiers must not reveal paths or grant access by themselves.,"SR-011: Generate opaque evidence IDs and server-controlled storage names; never use client filenames as filesystem path components.
+Acceptance: Uploads receive non-sequential random-looking IDs; path-like filenames do not traverse storage.
+Planned test: T-011 Upload metadata and path traversal tests
+CIA: C / Assets: A-04/A-09
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-011,storage",Evidence Handling & Native Boundary,PNE-011,SR-011,To Do
+Story,PNE-012 | Large uploads must not exhaust service capacity.,"SR-012: Reject oversized uploads with a configured maximum and bounded streaming/storage; clean up failed writes.
+Acceptance: Configured over-limit upload rejected, not written to disk; subsequent normal request still succeeds.
+Planned test: T-012 Boundary-size integration test and disk inspection
+CIA: A / Assets: A-03/A-09/A-13
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-012,availability",DevSecOps & Operations,PNE-012,SR-012,To Do
+Story,PNE-013 | Untrusted metadata must not corrupt native memory.,"SR-013: Bound and validate native helper input lengths; use bounded memory operations; compile and test helper with AddressSanitizer.
+Acceptance: Overlong input terminates safely with non-zero validation error; ASAN reports no overflow for fixed parser.
+Planned test: T-013 Controlled legacy/fixed C harness + ASAN output
+CIA: I,A / Assets: A-11/A-13
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-013,buffer-overflow",Evidence Handling & Native Boundary,PNE-013,SR-013,To Do
+Story,PNE-014 | User-supplied values must not become shell commands.,"SR-014: Invoke the fixed native helper through argument arrays with shell disabled; validate input and set timeout.
+Acceptance: Shell metacharacter input is treated as data or rejected; marker file/extra command never executes in secure version.
+Planned test: T-014 Controlled legacy/fixed command invocation test
+CIA: C,I,A / Assets: A-11/A-13
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-014,command-injection",Evidence Handling & Native Boundary,PNE-014,SR-014,To Do
+Story,PNE-015 | Untrusted filenames and paths must not escape private storage.,"SR-015: Normalize and validate display metadata; use server-generated object storage paths, never client-supplied path segments.
+Acceptance: Traversal patterns do not create or read files outside the configured private store.
+Planned test: T-015 Traversal negative tests + filesystem assertions
+CIA: C,I / Assets: A-03/A-04/A-09
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-015,storage",Evidence Handling & Native Boundary,PNE-015,SR-015,To Do
+Story,PNE-016 | Evidence bytes must have a verifiable integrity reference.,"SR-016: Compute SHA-256 on upload, store digest, and recompute/compare before authorized download or verification.
+Acceptance: Original bytes match the stored digest; a deliberately modified test file is flagged as mismatched.
+Planned test: T-016 Hash correctness and tamper-detection tests
+CIA: I / Assets: A-03/A-06
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-016,integrity",Evidence Handling & Native Boundary,PNE-016,SR-016,To Do
+Story,PNE-017 | Security-relevant evidence actions must be accountable.,"SR-017: Record actor, event, evidence ID, outcome and UTC timestamp for upload/share/revoke/download/delete/failed authorization without recording file contents.
+Acceptance: Each required event generates a timestamped record tied to actor and object; failures are recorded without file bytes.
+Planned test: T-017 Audit event integration test and record screenshot
+CIA: I / Assets: A-07/A-04
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-017,audit",Audit & Data Assurance,PNE-017,SR-017,To Do
+Story,PNE-018 | Audit and error messages must not disclose secrets or evidence contents.,"SR-018: Do not log passwords, session tokens, full file bodies, or secret configuration; use generic client errors.
+Acceptance: Known secret/test content strings are absent from generated audit/error logs; 500 response does not show stack trace.
+Planned test: T-018 Log redaction and safe-error tests
+CIA: C / Assets: A-07/A-12/A-10
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-018,audit",Audit & Data Assurance,PNE-018,SR-018,To Do
+Story,PNE-019 | Database requests must not permit SQL manipulation by user inputs.,"SR-019: Use parameterized DB operations and validated input; avoid dynamic SQL composition from request values.
+Acceptance: SQL metacharacter username/filename does not change query scope, corrupt data, or authenticate falsely.
+Planned test: T-019 DB query tests / static code review
+CIA: C,I / Assets: A-08/A-10
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-019,injection",Audit & Data Assurance,PNE-019,SR-019,To Do
+Story,PNE-020 | Invalid file metadata must fail closed without crashing normal workflows.,"SR-020: Validate length, encoding and allowed metadata at the web/native boundary; apply subprocess timeout and nonzero error handling.
+Acceptance: Empty/overlong/invalid input rejected with controlled HTTP error; health endpoint stays reachable.
+Planned test: T-020 Boundary, malformed-input and timeout tests
+CIA: I,A / Assets: A-04/A-11/A-13
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-020,input",Evidence Handling & Native Boundary,PNE-020,SR-020,To Do
+Story,PNE-021 | Deployment and build secrets must remain private and separately configurable.,"SR-021: Read secrets from environment/secret store; ignore .env and avoid real tokens in repo, images, CI logs and screenshots.
+Acceptance: Repository secret scan has no real secret; app refuses unsafe missing production secret; local .env is ignored.
+Planned test: T-021 Git ignore inspection + secret scanning
+CIA: C,I / Assets: A-12/A-14
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-021,secrets",DevSecOps & Operations,PNE-021,SR-021,To Do
+Story,PNE-022 | High/critical findings must block the secure delivery workflow.,"SR-022: Run tests, SAST and DAST evidence workflow; enforce a nonzero security stage result for verified high/critical findings.
+Acceptance: Passing clean run is green; synthetic/known high finding in a controlled test makes required CI check fail.
+Planned test: T-022 GitHub Actions/SAST/DAST artifacts, passing and failing screenshots
+CIA: I / Assets: A-14/A-10
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-022,devsecops",DevSecOps & Operations,PNE-022,SR-022,To Do
+Story,PNE-023 | Security changes must be reviewed and traceable to the need they address.,"SR-023: Protect main; merge via PR with one peer approval; name PNE-ID in issue/PR and link later threat, fix, test records.
+Acceptance: Main denies direct push; sample PR has reviewer approval and linked issue/test; actual issue keys saved after creation.
+Planned test: T-023 GitHub settings screenshot + real PR screenshot
+CIA: I / Assets: A-14/A-16
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-023,process",DevSecOps & Operations,PNE-023,SR-023,To Do
+Story,PNE-024 | Service failures must be detectable and startup reproducible.,"SR-024: Provide health endpoint, repeatable Docker Compose configuration, and clear restart/run instructions.
+Acceptance: Container starts from documented commands and /health responds; restart returns service to healthy state.
+Planned test: T-024 Docker Compose logs + health verification
+CIA: A / Assets: A-08/A-09/A-13
+Threat link: TBD during Phase 3.",Highest,"cyc386,casevault,pne,pne-024,availability",DevSecOps & Operations,PNE-024,SR-024,To Do
+Story,PNE-025 | Application runtime should minimize privileges.,"SR-025: Run container process as non-root with least required filesystem permissions and avoid privileged mounting.
+Acceptance: Inspection shows non-root UID and private writable directory only where required.
+Planned test: T-025 Container inspection test
+CIA: C,I,A / Assets: A-09/A-13
+Threat link: TBD during Phase 3.",Medium,"cyc386,casevault,pne,pne-025,hardening",Deployment & Residual Risk,PNE-025,SR-025,To Do
+Story,PNE-026 | Remote deployment should protect session and evidence traffic in transit.,"SR-026: For any internet-facing environment, terminate TLS and set Secure cookies; local HTTP is lab-only and must not be called production-ready.
+Acceptance: HTTPS request succeeds; HTTP redirects/rejected and browser cookie carries Secure in deployed environment.
+Planned test: T-026 Deployment configuration and TLS inspection
+CIA: C,I / Assets: A-02/A-03/A-15
+Threat link: TBD during Phase 3.",Medium,"cyc386,casevault,pne,pne-026,deployment",Deployment & Residual Risk,PNE-026,SR-026,To Do
+Story,PNE-027 | Evidence and configuration should be recoverable after storage failures.,"SR-027: Define encrypted backup, restore and integrity-check procedure for DB and file store; test before production use.
+Acceptance: Restored dummy evidence metadata and bytes match recorded digest after a rehearsal.
+Planned test: T-027 Documented restore drill (future)
+CIA: A,I / Assets: A-03/A-08/A-09
+Threat link: TBD during Phase 3.",Medium,"cyc386,casevault,pne,pne-027,recovery",Deployment & Residual Risk,PNE-027,SR-027,To Do
+Story,PNE-028 | Authentication attempts should be resistant to automated guessing.,"SR-028: Introduce per-account/IP login throttling and monitored failure events before broader exposure.
+Acceptance: Repeated failed attempts trigger bounded rejection without blocking unrelated accounts.
+Planned test: T-028 Rate-limit test (future)
+CIA: C,A / Assets: A-01/A-10
+Threat link: TBD during Phase 3.",Medium,"cyc386,casevault,pne,pne-028,authentication",Access & Sessions,PNE-028,SR-028,To Do
+Story,PNE-029 | Evidence retention and deletion must follow an explicit policy.,"SR-029: Agree retention limits and deletion semantics; prevent unauthorized purge and document backups not necessarily erased by live deletion.
+Acceptance: Policy defines retention and delete effect on primary/backup copy; sample deletion verified.
+Planned test: T-029 Policy review + cleanup test (future)
+CIA: C,I / Assets: A-03/A-07/A-09
+Threat link: TBD during Phase 3.",Medium,"cyc386,casevault,pne,pne-029,governance",Deployment & Residual Risk,PNE-029,SR-029,To Do
+Story,PNE-030 | Audit records should become tamper-evident for real investigations.,"SR-030: For production, forward audit logs to protected append-only/tamper-evident store; a mutable local SQLite audit table is not tamper-proof.
+Acceptance: Attempted modification detectable via protected archive/integrity chain; evidence of independent storage.
+Planned test: T-030 Integrity chain test (future)
+CIA: I / Assets: A-07
+Threat link: TBD during Phase 3.",Medium,"cyc386,casevault,pne,pne-030,audit",Audit & Data Assurance,PNE-030,SR-030,To Do
