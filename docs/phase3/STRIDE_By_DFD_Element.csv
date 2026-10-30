@@ -1,0 +1,37 @@
+﻿Element_ID,Element_Type_or_Description,S,T,R,I,D,E,Threat_IDs,Applicability_Rationale
+E1,External entity: investigator/browser,X,—,X,X,—,X,TH-001;TH-008;TH-009,"Untrusted identity, browser behavior, endpoint exposure"
+E2,Role: authorized collaborator shares E1 browser boundary,X,—,X,X,—,X,TH-001;TH-006;TH-023,Consolidated into E1 in level-1; same trust domain
+E3,External entity: untrusted website,X,X,—,X,—,—,TH-008;TH-009,"Cross-origin forgery, framing, deceptive page"
+E4,External entity: operator,X,—,X,X,—,—,TH-004;TH-018,Unauthorized operational disclosure and repudiation
+P1,Process: authentication and sessions,X,X,X,X,X,X,TH-001;TH-002;TH-008;TH-020,"Credentials, cookies and CSRF lifecycle"
+P2,Process: intake and integrity,—,X,X,X,X,X,TH-003;TH-010;TH-015;TH-016,"Untrusted bytes, storage limits and path controls"
+P3,Process: evidence authorization,X,X,X,X,X,X,TH-004;TH-006;TH-007;TH-011;TH-023,Every object access must recheck authorization
+P4,Process: native metadata helper,—,X,—,X,X,X,TH-013;TH-014;TH-019;TH-026,Cross-process arguments and memory safety
+P5,Process: audit and status,—,X,X,X,X,—,TH-004;TH-017;TH-018;TH-024,"Event integrity, log redaction, service health"
+D1,Data store: users and sessions,—,X,X,X,X,—,TH-001;TH-002;TH-020,"Hashes, tokens and auth data"
+D2,"Data store: metadata, grants, digests",—,X,X,X,X,—,TH-006;TH-011;TH-012;TH-016;TH-023,"IDOR, SQL and digest integrity"
+D3,Data store: private evidence bytes,—,X,X,X,X,—,TH-005;TH-007;TH-015;TH-024;TH-025,"Privacy, unauthorized delete, durability"
+D4,Data store: audit events,—,X,X,X,X,—,TH-017;TH-018,App-level audit is not tamper-proof
+TB-1,Boundary: browser to application,X,X,—,X,—,X,TH-001;TH-008;TH-009;TH-022,"Cookies, CSRF and cross-site origin"
+TB-2,Boundary: application to persistence,—,X,—,X,—,X,TH-005;TH-006;TH-011;TH-015,Unauthorized DB/storage reachability
+TB-3,Boundary: app to native helper,—,X,—,—,X,X,TH-013;TH-014;TH-019;TH-026,"Input bounds, shell and process isolation"
+F01,Flow: Credentials/cookies: E1→P1,X,X,—,X,—,—,TH-001;TH-002;TH-022,Apply threats at this trust crossing
+F02,Flow: Session/denial: P1→E1,X,—,—,X,—,—,TH-001,Apply threats at this trust crossing
+F03,Flow: Identity read/write: P1↔D1,—,X,—,X,—,—,TH-001;TH-002,Apply threats at this trust crossing
+F04,Flow: Evidence bytes/metadata: E1→P2,—,X,—,—,X,—,TH-003;TH-010;TH-015,Apply threats at this trust crossing
+F05,Flow: Validated argv: P2→P4,—,X,—,—,—,X,TH-013;TH-014,Apply threats at this trust crossing
+F06,Flow: Parser response: P4→P2,—,X,—,—,X,—,TH-013;TH-019,Apply threats at this trust crossing
+F07,Flow: Private write: P2→D3,—,X,—,X,—,—,TH-015;TH-016,Apply threats at this trust crossing
+F08,Flow: Metadata/digest write: P2→D2,—,X,—,X,—,—,TH-012;TH-016,Apply threats at this trust crossing
+F09,Flow: Object ID/actions: E1→P3,X,X,—,—,—,X,TH-006;TH-007;TH-012,Apply threats at this trust crossing
+F10,Flow: Grants/meta query: P3↔D2,—,X,—,X,—,X,TH-006;TH-011;TH-023,Apply threats at this trust crossing
+F11,Flow: Evidence bytes/delete: P3↔D3,—,X,—,X,X,—,TH-005;TH-007;TH-024,Apply threats at this trust crossing
+F12,Flow: Object result/denial: P3→E1,—,—,—,X,—,—,TH-005;TH-022,Apply threats at this trust crossing
+F13,Flow: Identity/CSRF verdict: P1→P2,X,X,—,—,—,—,TH-001;TH-008,Apply threats at this trust crossing
+F14,Flow: Identity/CSRF verdict: P1→P3,X,X,—,—,—,X,TH-001;TH-008;TH-006,Apply threats at this trust crossing
+F15,Flow: Intake audit event: P2→P5,—,X,X,—,—,—,TH-004;TH-017,Apply threats at this trust crossing
+F16,Flow: Object audit event: P3→P5,—,X,X,—,—,—,TH-004;TH-017,Apply threats at this trust crossing
+F17,Flow: Audit record: P5→D4,—,X,X,X,—,—,TH-017;TH-018,Apply threats at this trust crossing
+F18,Flow: Untrusted page: E3→E1,X,X,—,—,—,X,TH-008;TH-009,Apply threats at this trust crossing
+F19,Flow: Health req: E4→P5,X,—,—,—,X,—,TH-024,Apply threats at this trust crossing
+F20,Flow: Health reply: P5→E4,—,—,—,X,—,—,TH-018;TH-024,Apply threats at this trust crossing
